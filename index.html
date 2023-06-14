@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SoftOcean</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-size: 1rem;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      main {
+        margin-top: 5rem;
+        text-align: center;
+      }
+
+      .title {
+        /* line-height: 150%; */
+        margin: 2rem 0;
+      }
+
+      small {
+        font-size: 1rem;
+
+        color: rgb(172, 172, 172);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: grey;
+      }
+
+      .word-animation {
+        font-size: 4rem;
+        line-height: 200%;
+        font-weight: bold;
+      }
+
+      footer {
+        text-align: center;
+        margin-top: auto;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        font-size: 0.875rem;
+      }
+
+      @media (min-width: 550px) {
+        body {
+          font-size: 1.25rem;
+        }
+      }
+
+      @media (prefers-color-scheme: dark) {
+        body {
+          background-color: #0d1117;
+          color: white;
+        }
+      }
+    </style>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kablammo&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tilt+Prism&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rajdhani&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <main>
+      <h1 class="title">
+        We’re rebranding
+        <br />
+        Please come back later
+        <br />
+        <span class="word-animation">Softocean!</span>
+      </h1>
+    </main>
+
+    <footer>
+      <a href="https://www.instagram.com/softocean_gmbh/#" target="_blank"
+        >Instagram</a
+      >
+      <a href="https://www.linkedin.com/company/softocean-gmbh/" target="_blank"
+        >LinkedIn</a
+      >
+      <a href="https://www.facebook.com/softoceangmbh" target="_blank"
+        >Facebook</a
+      >
+      <a href="mailto:ak@softocean.com" target="_blank">ak@softocean.com</a>
+    </footer>
+
+    <script>
+      const $word = document.querySelector(".word-animation");
+      const word = $word.textContent;
+      let part;
+      let i = 0;
+      let offset = 0;
+      let forwards = true;
+      let skip_count = 0;
+      let skip_delay = 15;
+      let speed = 75;
+      let randomColor;
+
+      const fonts = [
+        "Kablammo",
+        "Roboto Condensed",
+        "Tilt Prism",
+        "Libre Baskerville",
+        "Dancing Script",
+        "Anton",
+        "Pacifico",
+        "Comfortaa",
+        "Rajdhani",
+        "Abril Fatface",
+      ];
+
+      colors = [
+        "#FF0000",
+        "#FF7F00",
+        "#FFFF00",
+        "#00FF00",
+        "#00FF7F",
+        "#00FFFF",
+        "#007FFF",
+        "#0000FF",
+        "#7F00FF",
+        "#FF00FF",
+        "#FF007F",
+        "#FF4D00",
+        "#FFA500",
+        "#FFFF66",
+        "#80FF00",
+        "#00FF80",
+        "#00FFFF",
+        "#0080FF",
+        "#7F00FF",
+        "#FF00FF",
+        "#FF0080",
+        "#FF6666",
+        "#FF9933",
+        "#FFFF99",
+        "#99FF66",
+        "#66FF99",
+        "#99FFFF",
+        "#66CCFF",
+        "#9966FF",
+        "#FF99FF",
+      ];
+
+      var wordflick = function () {
+        randomColor = getRandomColor();
+        setInterval(function () {
+          if (forwards) {
+            if (offset >= word.length) {
+              ++skip_count;
+              if (skip_count == skip_delay) {
+                forwards = false;
+                skip_count = 0;
+              }
+            }
+          } else {
+            if (offset == 0) {
+              forwards = true;
+              i++;
+              randomColor = getRandomColor();
+              offset = 0;
+            }
+          }
+          part = word.substr(0, offset);
+          if (skip_count == 0) {
+            if (forwards) {
+              offset++;
+            } else {
+              offset--;
+            }
+          }
+          if (i === fonts.length) {
+            i = 0;
+          }
+          $word.style.color = randomColor;
+          $word.style.fontFamily = fonts[i];
+          $word.textContent = part;
+        }, speed);
+      };
+
+      function getRandomColor() {
+        const randomIndex1 = Math.ceil(Math.random() * colors.length);
+        const randomIndex2 = Math.ceil(Math.random() * colors.length);
+
+        $word.style.background = `linear-gradient(to right, ${colors[randomIndex1]}, ${colors[randomIndex2]})`;
+        $word.style.webkitBackgroundClip = "text";
+        $word.style.webkitTextFillColor = "transparent";
+      }
+
+      wordflick();
+    </script>
+  </body>
+</html>
